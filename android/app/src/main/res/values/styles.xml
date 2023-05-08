@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
+    </style>
+ <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBgoN2DgkLyZ17JsebD40TUt2BXcs3MJss</string>
+</resources>
