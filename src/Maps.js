@@ -37,7 +37,10 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      
+      <View>
+        <Text> Google Maps </Text>
+        
+      </View>
       <GooglePlacesAutocomplete
         placeholder="Search"
         query={{
@@ -48,7 +51,7 @@ const App = () => {
         radius: 1000,
         }}
         styles={{
-          container: {flex:0, position:"absolute", width:"85%", zIndex:1,paddingTop:10, paddingLeft:10,  },
+          container: {flex:0, position:"absolute", width:"85%", zIndex:1,paddingTop:28, paddingLeft:10,  },
           listView:{backgroundColor:"white"}
         }}
         GooglePlacesDetailsQuery={{
