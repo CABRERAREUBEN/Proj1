@@ -7,6 +7,7 @@ import Login from './src/Login';
 import ForgotPassword from  './src/ForgotPassword'
 import Maps from  './src/Maps'
 import MapsLocation from  './src/MapsLocation'
+import Maps1 from './src/Maps1'
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
         <Stack.Screen name="Maps" component={Maps}/>
         <Stack.Screen name="MapsLocation" component={MapsLocation}/>
+        <Stack.Screen name="Maps1" component={Maps1}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

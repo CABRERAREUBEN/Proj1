@@ -1,3 +1,4 @@
+import { Slider } from '@rneui/base';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Dimensions, Text } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -8,16 +9,35 @@ var screenWidth = Dimensions.get('window').width;
 
 
 const App = () => {
-  const [regionCoords, setRegion] = useState({ lat: 14.589771, lng: 120.981456 });
-  const [marker, setMarker] = useState({ lat: 14.589771, lng: 120.981456 });
+  const [regionCoords, setRegion] = React.useState({ latitude: 	14.589771,
+    longitude:	120.981456,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,})
+  const [marker, setMarker] = useState({latitude: 	14.589771,
+    longitude:	120.981456,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421, });
 
   const onPress = (data, details) => {
-    setRegion(details.geometry.location);
-    setMarker(details.geometry.location);
+    setRegion({
+      latitude: details.geometry.location.lat,
+      longitude: details.geometry.location.lng,
+      latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    })
+    setMarker({
+      latitude: details.geometry.location.lat,
+      longitude: details.geometry.location.lng,
+      latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    });
   };
+  
+  const[range, setRange] = useState('25%')
 
   return (
     <View style={styles.container}>
+      
       <GooglePlacesAutocomplete
         placeholder="Search"
         query={{
@@ -25,7 +45,7 @@ const App = () => {
           language: 'en', 
           components: "country:ph",
         type:"establishment",
-        radius: 10000,
+        radius: 1000,
         }}
         styles={{
           container: {flex:0, position:"absolute", width:"85%", zIndex:1,paddingTop:10, paddingLeft:10,  },
@@ -43,12 +63,30 @@ const App = () => {
           useOnPlatform: 'web',
         }} 
       />
-
+      {/*<View style={{padding:10}}>
+        <Text>Distance: {range} KM </Text>
+      <Slider 
+      value={25}
+      maximumValue={50}
+      minimumValue={10}
+      step={1}
+      allowTouchTrack
+      thumbStyle={{height:20,width:20, backgroundColor:'black'}}
+      onValueChange={value => setRange(parseInt(value*1)  + '%')}
+      
+      />
+      </View>*/}
+      
+{/* flex:0, position:"absolute", width:"85%", zIndex:1,paddingTop:10, paddingLeft:10,  },
+          listView:{backgroundColor:"white"
+          
+          height:20,width:20, backgroundColor:'black', paddingBottom:50
+          */}
       <MapView
         style={styles.map}
         region={{
-          latitude: regionCoords.lat,
-          longitude: regionCoords.lng,
+          latitude: regionCoords.latitude,
+          longitude: regionCoords.longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }} 
@@ -61,16 +99,19 @@ const App = () => {
         followsUserLocation={true}
         provider="google"
         >
-        <Marker coordinate={{ latitude: marker.lat, longitude: marker.lng }}>
+          
+        <Marker coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}>
         <Callout>
         <Text>
           I'm Here
         </Text>
       </Callout>
           </Marker>
-          
+          <Circle center={ 
+      regionCoords} 
+    radius={500}/>
       </MapView>
-
+      
       
     </View>
   );
