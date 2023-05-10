@@ -1,14 +1,15 @@
-import { Slider } from '@rneui/base';
-import React, { useState, useEffect } from 'react';
+import { Button, Slider } from '@rneui/base';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, TextInput, Dimensions, Text } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView, { Marker, Callout, Circle } from 'react-native-maps';
-
+import Geolocation from '@react-native-community/geolocation';
 const GOOGLE_PLACES_API_KEY = 'AIzaSyBgoN2DgkLyZ17JsebD40TUt2BXcs3MJss'; 
 var screenWidth = Dimensions.get('window').width;
 
 
 const App = () => {
+  
   const [regionCoords, setRegion] = React.useState({ latitude: 	14.589771,
     longitude:	120.981456,
     latitudeDelta: 0.0922,
@@ -18,6 +19,23 @@ const App = () => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421, });
 
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    
+    const initialRadius = 10; // initial radius in meters
+
+  const [radius, setRadius] = useState(initialRadius);
+
+  const handleRadiusChange = (value) => {
+    setRadius(value);
+  };
+
+  const sliderRef = useRef(null)
+  const handleReset = () => {
+    setRadius(initialRadius);
+    sliderRef.current?.setNativeProps({ value: initialRadius });
+  };
+
+  
   const onPress = (data, details) => {
     setRegion({
       latitude: details.geometry.location.lat,
@@ -51,7 +69,7 @@ const App = () => {
         radius: 1000,
         }}
         styles={{
-          container: {flex:0, position:"absolute", width:"85%", zIndex:1,paddingTop:28, paddingLeft:10,  },
+          container: {flex:0, position:"absolute", width:"85%", zIndex:1,paddingTop:145, paddingLeft:10,  },
           listView:{backgroundColor:"white"}
         }}
         GooglePlacesDetailsQuery={{
@@ -66,19 +84,26 @@ const App = () => {
           useOnPlatform: 'web',
         }} 
       />
-      {/*<View style={{padding:10}}>
-        <Text>Distance: {range} KM </Text>
+      <View style={{padding:10}}>
+        <Text>Distance: {radius} Meters </Text>
       <Slider 
-      value={25}
-      maximumValue={50}
+      value={radius}
       minimumValue={10}
-      step={1}
+      maximumValue={500}
+      step={100}
       allowTouchTrack
       thumbStyle={{height:20,width:20, backgroundColor:'black'}}
-      onValueChange={value => setRange(parseInt(value*1)  + '%')}
-      
+      onValueChange={handleRadiusChange}
+      ref={sliderRef}
       />
-      </View>*/}
+      <View>
+      <Button
+      title="Reset"
+      onPress={handleReset}
+      />
+      
+        </View>
+      </View>
       
 {/* flex:0, position:"absolute", width:"85%", zIndex:1,paddingTop:10, paddingLeft:10,  },
           listView:{backgroundColor:"white"
@@ -112,7 +137,11 @@ const App = () => {
           </Marker>
           <Circle center={ 
       regionCoords} 
-    radius={500}/>
+    radius={radius}
+    fillColor="rgba(0, 0, 255, 0.3)"
+          strokeColor="blue"
+          strokeWidth={2}
+          />
       </MapView>
       
       
