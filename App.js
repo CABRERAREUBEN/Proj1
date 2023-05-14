@@ -8,6 +8,7 @@ import ForgotPassword from  './src/ForgotPassword'
 import Maps from  './src/Maps'
 import MapsLocation from  './src/MapsLocation'
 import Maps1 from './src/Maps1'
+import Maps3 from './src/Maps3';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Stack.Screen name="Maps" component={Maps}/>
         <Stack.Screen name="MapsLocation" component={MapsLocation}/>
         <Stack.Screen name="Maps1" component={Maps1}/>
+        <Stack.Screen name="Maps3" component={Maps3}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

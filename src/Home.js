@@ -15,6 +15,7 @@ const Home = (props) => {
       <Btn bgColor='white' textColor={darkGreen} btnLabel="MapsSlider" Press={() => props.navigation.navigate("Maps1")} />
       <Btn bgColor='white' textColor={darkGreen} btnLabel="Maps Working" Press={() => props.navigation.navigate("Maps")} />
       <Btn bgColor='white' textColor={darkGreen} btnLabel="Current Location" Press={() => props.navigation.navigate("MapsLocation")} />
+      <Btn bgColor='white' textColor={darkGreen} btnLabel="Maps3" Press={() => props.navigation.navigate("Maps3")} />
       </View>
     </Background>
   );

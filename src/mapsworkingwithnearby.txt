@@ -5,36 +5,11 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import MapView, { Marker, Callout, Circle } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
-
 const GOOGLE_PLACES_API_KEY = 'AIzaSyBgoN2DgkLyZ17JsebD40TUt2BXcs3MJss'; 
 var screenWidth = Dimensions.get('window').width;
 
 
 const App = () => {
-  const requestLocationPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Location Permission',
-          message: 'App needs access to your location.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Location permission granted.');
-      } else {
-        console.log('Location permission denied.');
-      }
-    } catch (error) {
-      console.error('Error requesting location permission:', error);
-    }
-  };
-  
-  // Call the permission request function
-  requestLocationPermission();
   
   const [regionCoords, setRegion] = React.useState({ latitude: 	14.589771,
     longitude:	120.981456,
@@ -50,7 +25,7 @@ const App = () => {
     const fetchNearbyPlaces = async (latitude, longitude) => {
       try {
         const apiKey = 'AIzaSyBgoN2DgkLyZ17JsebD40TUt2BXcs3MJss';
-        const radius = 300; // The radius in meters (adjust as per your requirement)
+        const radius = 1000; // The radius in meters (adjust as per your requirement)
         const endpoint = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&key=${apiKey}`;
     
         const response = await axios.get(endpoint);
@@ -292,10 +267,11 @@ const App = () => {
                 description={place.vicinity}
               />
             ))}
-        <Marker coordinate={{ latitude: marker.latitude, longitude: marker.longitude }} title="I'M HERE"
-          pinColor="blue">
+        <Marker coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}>
         <Callout>
-        
+        <Text>
+          I'm Here
+        </Text>
       </Callout>
           </Marker>
           <Circle center={ 
