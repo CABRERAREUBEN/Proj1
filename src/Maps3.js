@@ -41,6 +41,9 @@ export default function Maps3() {
     return meters / 1000;
   };
 
+  const kilometersToMeters = (kilometers) => {
+    return kilometers * 1000;
+  };
   const handleRadiusChange = (value) => {
     setRadius(value);
     const km = metersToKilometers(value);
@@ -49,6 +52,7 @@ export default function Maps3() {
   };
 
   const sliderRef = useRef(null)
+  
   const handleReset = () => {
     setRadius(initialRadius);
     sliderRef.current?.setNativeProps({ value: initialRadius });
