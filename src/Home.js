@@ -12,10 +12,10 @@ const Home = (props) => {
       <Text style={{ color: 'white', fontSize: 64, marginBottom: 40 }}>Coding</Text>
       <Btn bgColor={green} textColor='white' btnLabel="Login" Press={() => props.navigation.navigate("Login")} />
       <Btn bgColor='white' textColor={darkGreen} btnLabel="Signup" Press={() => props.navigation.navigate("Signup")} />
-      <Btn bgColor='white' textColor={darkGreen} btnLabel="MapsSlider" Press={() => props.navigation.navigate("Maps1")} />
-      <Btn bgColor='white' textColor={darkGreen} btnLabel="Maps Working" Press={() => props.navigation.navigate("Maps")} />
-      <Btn bgColor='white' textColor={darkGreen} btnLabel="Current Location" Press={() => props.navigation.navigate("MapsLocation")} />
-      <Btn bgColor='white' textColor={darkGreen} btnLabel="Maps3" Press={() => props.navigation.navigate("Maps3")} />
+       <Btn bgColor='white' textColor={darkGreen} btnLabel="Maps Nearby" Press={() => props.navigation.navigate("Maps1")} />
+      {/* <Btn bgColor='white' textColor={darkGreen} btnLabel="Maps Working" Press={() => props.navigation.navigate("Maps")} />
+    <Btn bgColor='white' textColor={darkGreen} btnLabel="Current Location" Press={() => props.navigation.navigate("MapsLocation")} /> */}
+      <Btn bgColor='white' textColor={darkGreen} btnLabel="Show On Radius" Press={() => props.navigation.navigate("Maps3")} />
       </View>
     </Background>
   );

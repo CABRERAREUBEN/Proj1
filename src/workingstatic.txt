@@ -33,19 +33,11 @@ export default function Maps3() {
   };
 
   const initialRadius = 500; // initial radius in meters
-  
-  const [radius, setRadius] = useState(initialRadius);
-  const [radiusInKilometers, setRadiusInKilometers] = useState(0);
 
-  const metersToKilometers = (meters) => {
-    return meters / 1000;
-  };
+  const [radius, setRadius] = useState(initialRadius);
 
   const handleRadiusChange = (value) => {
     setRadius(value);
-    const km = metersToKilometers(value);
-    setRadiusInKilometers(km);
-
   };
 
   const sliderRef = useRef(null)
@@ -73,7 +65,6 @@ export default function Maps3() {
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
   }, []);
-  
 
   useEffect(() => {
     
@@ -82,7 +73,6 @@ export default function Maps3() {
       { id: 2, title: 'Cubao, Quezon City', latitude: 14.617290, longitude: 	121.059311 },
       { id: 3, title: 'Rizal Park, Manila', latitude: 14.5826, longitude: 	120.9787 },
       { id: 4, title: 'Estancia', latitude: 14.6018, longitude: 	121.0467},
-      { id: 5, title: 'Bacood Park', latitude: 14.597202, longitude: 	121.015961},
       
     ];
     setMarkers(fetchedMarkers);
@@ -138,23 +128,10 @@ export default function Maps3() {
   };
 
 
-  const getInitialRegion = () => {
-    if (currentLocation) {
-      return {
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      };
-    }
-    // Default initial region if current location is not available
-    return null;
-  };
-
   return (
     <View style={styles.container}>
 <View style={{padding:10}}>
-        <Text>Distance: {radiusInKilometers} KM </Text>
+        <Text>Distance: {radius} Meters </Text>
       <Slider 
       value={radius}
       minimumValue={500}
@@ -174,7 +151,7 @@ export default function Maps3() {
       </View>
       </View>
 
-<MapView style={styles.map} initialRegion={getInitialRegion()}>
+<MapView style={styles.map}>
       {currentLocation && (
         <>
           <Marker

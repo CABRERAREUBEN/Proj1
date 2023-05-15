@@ -1,0 +1,87 @@
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import MapView, { Marker,Callout,Circle } from 'react-native-maps';
+import Geolocation from 'react-native-geolocation-service';
+
+export default function Maps3() {
+  const [region, setRegion] = useState(null);
+  const [markers, setMarkers] = useState([]);
+  const [currentLocation, setCurrentLocation] = useState(null);
+
+  
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const initialRegion = {
+          latitude,
+          longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        };
+        setRegion(initialRegion);
+        setCurrentLocation(position.coords);
+      },
+      (error) => {
+        console.error(error);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  }, []);
+
+  useEffect(() => {
+    // Simulating fetching markers from an API
+    const fetchedMarkers = [
+      { id: 1, title: 'Manila City Hall', latitude: 14.599512, longitude: 120.984222 },
+      { id: 2, title: 'Cubao, Quezon City', latitude: 14.617290, longitude: 	121.059311 },
+      { id: 3, title: 'Rizal Park, Manila', latitude: 14.5826, longitude: 	120.9787 },
+      // Add more markers as per your requirement
+    ];
+    setMarkers(fetchedMarkers);
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      {region && (
+        <MapView style={styles.map} region={region}>
+          {markers.map((marker) => (
+            <Marker
+              key={marker.id}
+              coordinate={{
+                latitude: marker.latitude,
+                longitude: marker.longitude,
+              }}
+              title={marker.title}
+            />
+          ))}
+          {currentLocation && (
+            <Marker
+              coordinate={{
+                latitude: currentLocation.latitude,
+                longitude: currentLocation.longitude,
+              }}
+              title="Current Location"
+              pinColor="blue"
+            />
+            
+          )}
+          <Circle center={ 
+      currentLocation} 
+    radius={300}
+    fillColor="rgba(0, 0, 255, 0.3)"
+          strokeColor="blue"
+          strokeWidth={2}
+          />
+        </MapView>
+      )}
+    </View>
+  )
+}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    flex: 1,
+  },
+});

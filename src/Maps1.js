@@ -305,6 +305,7 @@ const App = () => {
           strokeColor="blue"
           strokeWidth={2}
           />
+          
       </MapView>
       
       

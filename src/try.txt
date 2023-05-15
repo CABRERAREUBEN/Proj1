@@ -1,0 +1,111 @@
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import MapView, { Marker,Callout,Circle } from 'react-native-maps';
+import Geolocation from 'react-native-geolocation-service';
+
+export default function Maps3() {
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [markers, setMarkers] = useState([]);
+  const [radius, setRadius] = useState(1000); // Radius in meters
+
+  useEffect(() => {
+    // Fetch the markers from an API or any other source
+    const fetchedMarkers = [
+      { id: 1, title: 'Manila City Hall', latitude: 14.599512, longitude: 120.984222 },
+      { id: 2, title: 'Cubao, Quezon City', latitude: 14.617290, longitude: 	121.059311 },
+      { id: 3, title: 'Rizal Park, Manila', latitude: 14.5826, longitude: 	120.9787 },
+      // Add more markers as per your requirement
+    ];
+    setMarkers(fetchedMarkers);
+
+    
+  },[]);
+
+  useEffect(() => {
+    // Simulating fetching markers from an API
+    const fetchedMarkers = [
+      { id: 1, title: 'Manila City Hall', latitude: 14.599512, longitude: 120.984222 },
+      { id: 2, title: 'Cubao, Quezon City', latitude: 14.617290, longitude: 	121.059311 },
+      { id: 3, title: 'Rizal Park, Manila', latitude: 14.5826, longitude: 	120.9787 },
+      // Add more markers as per your requirement
+    ];
+    setMarkers(fetchedMarkers);
+  }, []);
+
+  
+
+  const renderMarkersWithinRadius = () => {
+    if (!currentLocation) {
+      return null;
+    }
+
+    return markers.map(marker => {
+      const distance = calculateDistance(
+        currentLocation.latitude,
+        currentLocation.longitude,
+        marker.latitude,
+        marker.longitude
+      );
+
+      if (distance <= radius) {
+        return (
+          <Marker
+            key={marker.id}
+            coordinate={{
+              latitude: marker.latitude,
+              longitude: marker.longitude
+            }}
+            title={marker.title}
+          />
+        );
+      }
+
+      return null;
+    });
+  };
+
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Earth's radius in km
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c * 1000; // Distance in meters
+    return distance;
+  };
+
+  const deg2rad = deg => {
+    return deg * (Math.PI / 180);
+  };
+
+
+  return (
+    <MapView style={styles.map}>
+      {currentLocation && (
+        <>
+          <Circle
+            center={{
+              latitude: currentLocation.latitude,
+              longitude: currentLocation.longitude
+            }}
+            radius={radius}
+            strokeColor="rgba(0, 0, 255, 0.5)"
+            fillColor="rgba(0, 0, 255, 0.1)"
+          />
+          {renderMarkersWithinRadius()}
+        </>
+      )}
+    </MapView>
+  )
+}
+
+const styles = StyleSheet.create({
+  map: {
+    flex: 1
+  }
+});

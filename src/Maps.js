@@ -10,6 +10,7 @@ var screenWidth = Dimensions.get('window').width;
 
 const App = () => {
   
+  
   const [regionCoords, setRegion] = React.useState({ latitude: 	14.589771,
     longitude:	120.981456,
     latitudeDelta: 0.0922,
