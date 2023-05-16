@@ -16,6 +16,7 @@ const Home = (props) => {
       {/* <Btn bgColor='white' textColor={darkGreen} btnLabel="Maps Working" Press={() => props.navigation.navigate("Maps")} />
     <Btn bgColor='white' textColor={darkGreen} btnLabel="Current Location" Press={() => props.navigation.navigate("MapsLocation")} /> */}
       <Btn bgColor='white' textColor={darkGreen} btnLabel="Show On Radius" Press={() => props.navigation.navigate("Maps3")} />
+      <Btn bgColor='white' textColor={darkGreen} btnLabel="QR" Press={() => props.navigation.navigate("QR")} />
       </View>
     </Background>
   );
