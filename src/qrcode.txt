@@ -64,12 +64,6 @@ const App = () => {
       if (uri) {
         const saveLocation = '/storage/emulated/0/DCIM/qrCode.png'; // Replace with your desired save location
         await saveImageToLocation(uri, saveLocation);
-        const path = RNFetchBlob.fs.dirs.DCIMDir + '/qrcode.png';
-        await RNFetchBlob.fs.writeFile(path, uri);
-        if (Platform.OS === 'android') {
-          await RNFetchBlob.fs.scanFile([{ path }]);
-          await saveImageToLocation(uri, saveLocation);
-        }
         ToastAndroid.show('QR code saved to specified location', ToastAndroid.SHORT);
       } else {
         ToastAndroid.show('Failed to save QR code', ToastAndroid.SHORT);
