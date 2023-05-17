@@ -133,6 +133,9 @@ const App = () => {
           logoBackgroundColor="white"
           logo={require('./assets/ddx.png')}
         />
+        <View style={{alignItems: 'center', }}>
+          <Text style={{fontSize: 18, fontWeight: 'bold'  }}>DataDynamix Inc.</Text>
+        </View>
         </ViewShot>
         <TouchableOpacity
           style={styles.buttonStyle}
