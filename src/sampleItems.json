@@ -1,0 +1,15 @@
+[
+    {
+      "id": "ABC123",
+      "name": "Sample Item 1",
+      "price": 9.99,
+      "quantity": 1
+    },
+    {
+      "id": "DEF456",
+      "name": "Sample Item 2",
+      "price": 14.99,
+      "quantity": 2
+    }
+  ]
+  

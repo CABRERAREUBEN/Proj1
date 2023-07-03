@@ -2,7 +2,7 @@
 // https://aboutreact.com/generation-of-qr-code-in-react-native/
 
 // import React in our code
-import React, {useState, useRef,useEffect,} from 'react';
+import React, {useState, useRef,useEffect} from 'react';
 
 // import all the components we are going to use
 import {
@@ -14,7 +14,6 @@ import {
   TouchableOpacity,
   Alert,
   ToastAndroid,
-  Image
 } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
 import RNFS from 'react-native-fs';
@@ -112,11 +111,7 @@ const App = () => {
           placeholder="Enter Any Value"
           value={inputText}
         />
-        <ViewShot ref={viewRef} style={{ backgroundColor: 'white',}}>
-        <Text>
-
-        </Text>
-        
+        <ViewShot ref={viewRef}>
         <QRCode 
           getRef={(ref) => (myQRCode = ref)}
           // ref={myQRCode}
@@ -138,15 +133,9 @@ const App = () => {
           logoBackgroundColor="white"
           logo={require('./assets/ddx.png')}
         />
-        <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center',padding:15 }}>
-         <Image
-        source={require('./assets/ddx.png')} // or use a remote URL
-        style={{ width: 50, height: 50 }}
-      /> DataDynamix Inc. 
-        </Text>
-        {/*<View style={{alignItems: 'center', }}>
+        <View style={{alignItems: 'center', }}>
           <Text style={{fontSize: 18, fontWeight: 'bold'  }}>DataDynamix Inc.</Text>
-  </View> */}
+        </View>
         </ViewShot>
         <TouchableOpacity
           style={styles.buttonStyle}

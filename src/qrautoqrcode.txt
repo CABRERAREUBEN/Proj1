@@ -1,0 +1,44 @@
+import React, { useEffect, useState } from 'react';
+import { View, Text, Button } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
+import RNFS from 'react-native-fs';
+
+const SampleItems = () => {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    readSampleItems();
+  }, []);
+
+  const readSampleItems = async () => {
+    // Read the sample items from JSON file
+    try {
+      const path = RNFS.DocumentDirectoryPath + '/sampleItems.json';
+      const fileContent = await RNFS.readFile(path, 'utf8');
+      const itemsData = JSON.parse(fileContent);
+      setItems(itemsData);
+      console.log('Sample items loaded successfully!');
+    } catch (error) {
+      console.log('Error reading sample items:', error);
+    }
+  };
+
+  return (
+    <View>
+      {items.map((item) => (
+        <View key={item.id}>
+          <Text>ID: {item.id}</Text>
+          <Text>Name: {item.name}</Text>
+          <Text>Price: {item.price}</Text>
+          <Text>Quantity: {item.quantity}</Text>
+          <QRCode
+            value={item.id} // Pass the unique code as the value for the QR code
+            size={200}
+          />
+        </View>
+      ))}
+    </View>
+  );
+};
+
+export default SampleItems;

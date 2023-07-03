@@ -2,7 +2,7 @@
 // https://aboutreact.com/generation-of-qr-code-in-react-native/
 
 // import React in our code
-import React, {useState, useRef,useEffect,} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 // import all the components we are going to use
 import {
@@ -10,11 +10,8 @@ import {
   Text,
   View,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
-  Alert,
   ToastAndroid,
-  Image
 } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
 import RNFS from 'react-native-fs';
@@ -22,12 +19,13 @@ import QRCode from 'react-native-qrcode-svg';
 import RNFetchBlob from 'rn-fetch-blob';
 import ViewShot from 'react-native-view-shot';
 import Share from 'react-native-share';
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 import { request, PERMISSIONS } from 'react-native-permissions';
 
 const App = () => {
-  const [inputText, setInputText] = useState('');
   const [qrvalue, setQrvalue] = useState('');
+  const [userId, setUserId] = useState('');
+
   let myQRCode = useRef();
   const viewRef = useRef();
 
@@ -47,7 +45,7 @@ const App = () => {
     } catch (error) {
       console.error('Error sharing QR code:', error.message);
     }
-  };  
+  };
 
   const saveQRCode = async () => {
     try {
@@ -82,9 +80,9 @@ const App = () => {
 
   const captureQRCode = () => {
     return new Promise((resolve, reject) => {
-      viewRef.current.capture().then(uri => {
+      viewRef.current.capture().then((uri) => {
         resolve(uri);
-      }).catch(error => {
+      }).catch((error) => {
         reject(error);
       });
     });
@@ -99,82 +97,49 @@ const App = () => {
       throw error;
     }
   };
-  
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={styles.container}>
-        <Text style={styles.titleStyle}>
-         Generate QR
-        </Text>
-        <TextInput
-          style={styles.textInputStyle}
-          onChangeText={(inputText) => setInputText(inputText)}
-          placeholder="Enter Any Value"
-          value={inputText}
-        />
-        <ViewShot ref={viewRef} style={{ backgroundColor: 'white',}}>
-        <Text>
 
-        </Text>
-        
-        <QRCode 
-          getRef={(ref) => (myQRCode = ref)}
-          // ref={myQRCode}
-          //QR code value
-          value={qrvalue ? qrvalue : 'NA'}
-          //size of QR Code
-          size={250}
-          //Color of the QR Code (Optional)
-          color="black"
-          //Background Color of the QR Code (Optional)
-          backgroundColor="white"
-          //Center Logo size  (Optional)
-          logoSize={30}
-          //Center Logo margin (Optional)
-          logoMargin={2}
-          //Center Logo radius (Optional)
-          logoBorderRadius={15}
-          //Center Logo background (Optional)
-          logoBackgroundColor="white"
-          logo={require('./assets/ddx.png')}
-        />
-        <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center',padding:15 }}>
-         <Image
-        source={require('./assets/ddx.png')} // or use a remote URL
-        style={{ width: 50, height: 50 }}
-      /> DataDynamix Inc. 
-        </Text>
-        {/*<View style={{alignItems: 'center', }}>
-          <Text style={{fontSize: 18, fontWeight: 'bold'  }}>DataDynamix Inc.</Text>
-  </View> */}
+  useEffect(() => {
+    setUserId('1234566'); 
+    generateQRCode(); 
+  }, []);
+
+  const generateQRCode = () => {
+   
+    setQrvalue(userId ? userId : 'NA');
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Text style={styles.titleStyle}>Generate QR</Text>
+        <ViewShot ref={viewRef}>
+          <QRCode
+            getRef={(ref) => (myQRCode = ref)}
+            value={qrvalue ? qrvalue : 'NA'}
+            size={250}
+            color="black"
+            backgroundColor="white"
+            logoSize={30}
+            logoMargin={2}
+            logoBorderRadius={15}
+            logoBackgroundColor="white"
+            logo={require('./assets/ddx.png')}
+          />
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>DataDynamix Inc.</Text>
+          </View>
         </ViewShot>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={() => setQrvalue(inputText)}>
-          <Text style={styles.buttonTextStyle}>
-            Generate QR Code
-          </Text>
+        <TouchableOpacity style={styles.buttonStyle} onPress={shareQRCode}>
+          <Text style={styles.buttonTextStyle}>Share QR</Text>
         </TouchableOpacity>
-        <View style={styles.row}>
-        <TouchableOpacity
-          style={styles.Button}
-          onPress={shareQRCode}>
-          <Text style={styles.buttonTextStyle}>
-            Share QR 
-          </Text>
+        <TouchableOpacity style={styles.buttonStyle} onPress={saveQRCode}>
+          <Text style={styles.buttonTextStyle}>Save QR</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.Button}
-          onPress={saveQRCode}>
-          <Text style={styles.buttonTextStyle}>
-            Save QR
-          </Text>
-        </TouchableOpacity>
-        </View>
       </View>
     </SafeAreaView>
   );
 };
+
 export default App;
 
 const styles = StyleSheet.create({
@@ -195,44 +160,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
-  textInputStyle: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    textAlign: 'center',
-    marginRight: 5,
-    marginVertical: 20,
-    borderRadius: 20,
-    width: 320,
-    borderWidth: 1,
-    borderStyle: 'solid',
-  },
   buttonStyle: {
     backgroundColor: 'deepskyblue',
-   marginTop: 32,
-   marginRight: 5,
-   paddingVertical: 10,
-   paddingHorizontal: 35,
-   borderRadius: 20,
-   paddingBottom: 17,
+    marginTop: 32,
+    marginRight: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 35,
+    borderRadius: 20,
+    paddingBottom: 17,
   },
   buttonTextStyle: {
     color: '#FFFFFF',
     paddingVertical: 10,
     fontSize: 16,
   },
-  Button: {
-    backgroundColor: 'deepskyblue',
-    marginTop: 32,
-    marginRight: 10,
-    marginLeft:-5,
-    paddingVertical: 10,
-    paddingHorizontal: 35,
-    borderRadius: 20,
-    paddingBottom: 17,
-   },
-   row: {
-    flexDirection: 'row',
-    marginTop: 10,
-    marginLeft:20,
-    },
-}); 
+});
